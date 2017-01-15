@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 //import './App.css';
 import { Link, browserHistory } from 'react-router'
+import Helper from './helpers.js'
 
 export class Login extends Component {
   constructor(props) {
@@ -19,9 +20,9 @@ export class Login extends Component {
   login(event) {
     event.preventDefault();
     const {username, password } = this.state;
-    const url = `${window.app.baseUrl}/token`;
+    const url = `${Helper.baseUrl()}/login`;
     const data = JSON.stringify({username, password});
-    fetch(url, {
+    fetch(Helper.api_url('login'), {
       method: 'post',
       headers: new Headers({'content-type': 'application/json'}),
       body: data
@@ -32,7 +33,9 @@ export class Login extends Component {
         throw "Unsuccessful Login"
       }
     }).then(data => {
-      window.app.token = data.token;
+      Helper.storeToken(data.auth_token);
+      Helper.setUser(data);
+      console.log('user', Helper.getUser());
       browserHistory.push('/home')
     }).catch(error => console.log(error));
   }

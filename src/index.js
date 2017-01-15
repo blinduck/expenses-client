@@ -8,11 +8,11 @@ import {RecordList} from './RecordList'
 import {Create} from './Create'
 import './index.css';
 import { Router, Route, browserHistory } from 'react-router'
+import moment from 'moment'
 
-window.app = {
-  baseUrl:'http://expenses.dev/api/v1'
-}
+window.moment = moment;
 
+window.app = {}
 
 ReactDOM.render((
     <Router history={browserHistory}>
@@ -26,3 +26,6 @@ ReactDOM.render((
     </Router>
   ), document.getElementById('root')
 );
+
+
+
