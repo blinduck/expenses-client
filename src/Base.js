@@ -9,10 +9,17 @@ export class Base extends Component {
     this.toggleDrawer = this.toggleDrawer.bind(this);
     this.closeDrawer = this.closeDrawer.bind(this);
     this.goTo = this.goTo.bind(this);
+    this.setTitle = this.setTitle.bind(this);
     this.state = {
-      open: false
+      open: false,
+      title: 'something'
     }
   }
+
+  setTitle(value){
+    this.setState({title: value})
+  }
+
   logout(event){
     event.preventDefault();
     Helper.logOut();
@@ -24,7 +31,6 @@ export class Base extends Component {
   toggleDrawer() {
     const current = this.state.open;
     this.setState({open: !current});
-    console.log(this.state);
   }
   closeDrawer() {
     this.setState({open: false});
@@ -43,29 +49,47 @@ export class Base extends Component {
             style={{float: 'right', margin: '15px'}}> Close</button>
           <ul>
             <li>
-              <a href="" onClick={this.goTo.bind(this, "/home")}>Home</a>
+              <a href=""
+                 onClick={this.goTo.bind(this, "/home")}>
+                Home
+              </a>
             </li>
             <li>
-              <a href="" onClick={this.goTo.bind(this, '/create')}>Create</a>
+              <a href=""
+                 onClick={this.goTo.bind(this, '/create')}>
+                Create
+              </a>
             </li>
             <li>
-              <a href="" onClick={this.goTo.bind(this, '/expense-list')}>Expense List</a>
+              <a href=""
+                 onClick={this.goTo.bind(this, '/expense-list')}>
+                All Expenses
+              </a>
+            </li>
+            <li>
+              <a href=""
+                 onClick={this.goTo.bind(this, '/categories')}>
+                Categories
+              </a>
             </li>
             <li>
               <a href="" onClick={this.logout}>Logout</a>
             </li>
           </ul>
         </div>
-        <button style={{margin: "15px"}}
-          onClick={this.toggleDrawer}>
-          Menu
-        </button>
-        <div style={{padding: '15px'}}>
-          {this.props.children}
+        <div style={{display: 'flex'}}>
+          <button style={{margin: "6px", background:'none', border:'none'}}
+                  onClick={this.toggleDrawer}>
+            <img src="menu.svg" alt="menu" style={{height: '48px'}}/>
+          </button>
+          <h1 style={{'align-self':'center'}}>{this.state.title}</h1>
+        </div>
+        <div className='container'>
+          {this.props.children && React.cloneElement(this.props.children, {
+            setTitle: this.setTitle
+          })}
         </div>
       </div>
-
-
     )
   }
 }

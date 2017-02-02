@@ -16,6 +16,7 @@ import moment from 'moment'
 export class RecordList extends Component {
   constructor(props) {
     super(props);
+    this.setTitle = props.setTitle;
     const m = moment.utc();
     const expenseTypeSelectorOptions = ['All', 'Personal', 'Household'];
 
@@ -39,6 +40,7 @@ export class RecordList extends Component {
   }
 
   componentDidMount() {
+    this.setTitle('Expenses');
     this.fetchExpenses(1, true)
   }
 
@@ -97,8 +99,15 @@ export class RecordList extends Component {
           )}
         </div>
         {records ?
-          <table>
+          <table className='table-striped table'>
             <tbody>
+            <tr>
+              <th>Id</th>
+              <th>Name</th>
+              <th>Amount</th>
+              <th>Category</th>
+              <th>Time</th>
+            </tr>
             {records.map(record => {
               return Record(record)
             })}
@@ -121,11 +130,13 @@ export class RecordList extends Component {
 const Record = (record)=>
   <tr key={record.id}>
     <td>{record.id}</td>
-    <td>{record.name}</td>
+    <td>
+      <span style={{'font-weight':'bold'}}>{record.name}</span> <br/>
+      {record.type}
+    </td>
     <td>{record.amount}</td>
     <td>{record.category}</td>
-    <td>{record.type}</td>
-    <td>{moment(record.time).format('D MMM LT')}</td>
+    <td>{moment(record.time).format('D MMM')}</td>
   </tr>
 
 

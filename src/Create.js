@@ -14,6 +14,7 @@ export class Create extends Component{
     super(props);
     this.state = {
     };
+    this.setTitle = props.setTitle;
     this.createRecord = this.createRecord.bind(this);
     this.timeChanged = this.timeChanged.bind(this);
     this.inputChanged = this.inputChanged.bind(this);
@@ -56,6 +57,7 @@ export class Create extends Component{
       this.setState({baseData: data});
       this.setState({record: this.emptyRecord(data)});
     })
+    this.setTitle('Add');
   }
   timeChanged(value) {
     const record = this.state.record;
@@ -79,7 +81,6 @@ export class Create extends Component{
       <div>
         {this.state.baseData && this.state.record ?
           <div>
-            <h1>Add Expense</h1>
             <form onSubmit={this.createRecord}>
               <div className='form-input'>
                 <label>Name:</label>
@@ -131,7 +132,7 @@ export class Create extends Component{
                 </select>
               </div>
 
-              <button type="submit">Add</button>
+              <button className='btn btn-block btn-ok' type="submit">Add</button>
             </form>
 
           </div>

@@ -19,7 +19,7 @@ export class Login extends Component {
   }
   login(event) {
     event.preventDefault();
-    const {username, password } = this.state;
+    const {username, password} = this.state;
     const url = `${Helper.baseUrl()}/login`;
     const data = JSON.stringify({username, password});
     fetch(Helper.api_url('login'), {
@@ -42,20 +42,21 @@ export class Login extends Component {
   render() {
     const {username, password, errors} = this.state;
     return (
-      <div>
+      <div className='container'>
         <h2>Expenses</h2>
         <form onSubmit={this.login}>
-          <div>
+          <div className='form-input'>
             <label>Username: </label>
             <input type="text" onChange={this.onInputChange} value={username} name='username'/>
           </div>
-          <div>
+          <div className='form-input'>
             <label>Password:</label>
             <input type="password" onChange={this.onInputChange} value={password} name='password'/>
           </div>
           {errors ? <div>Username or Password is incorrect</div> : null}
-          <button type="submit">Login</button>
+          <button className="btn btn-ok btn-block" type="submit">Login</button>
         </form>
+        <Link to="/signup" className='center-text'>Don't have an account? Sign Up</Link>
       </div>
     );
   }

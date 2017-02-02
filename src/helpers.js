@@ -2,42 +2,53 @@ import { browserHistory } from 'react-router'
 import docCookies from './docCookies.js'
 import moment from 'moment';
 
+const basebaseUrl = process.env.NODE_ENV == 'production' ? 'http://dollardollar.io' : 'http://expenses.dev';
+
 class APIEndpoints {
   // assuming that /api/v1 is already taken into account
 
-  static baseUrl(){return  'http://expenses.dev/api/v1'};
-
-  static paramStr(params){
+  static baseUrl() {
+    return `${basebaseUrl}/api/v1`
+  }
+  static paramStr(params) {
     const str = Object.keys(params).map(key=> {
       return key + '=' + params[key]
     }).join('&');
     return str
-
   }
-  static login() {
-    return this.baseUrl() + "/login";
-  };
-  static base_data(){
+  static login() { return this.baseUrl() + "/login"; }
+
+  static signup(){return this.baseUrl() + "/users" }
+
+  static base_data() {
     return this.baseUrl() + '/base_data';
   }
+
   static create_record() {
     return this.baseUrl() + '/records'
-  };
+  }
+
   static record_list(params) {
     let url = this.baseUrl() + '/records';
     if (params) url += '?' + this.paramStr(params)
     return url
-  };
-  static budget_list() {
-    return  this.baseUrl() + '/budgets'
   }
-  static masterbudget_list(){
+
+  static budget_list() {
+    return this.baseUrl() + '/budgets'
+  }
+
+  static masterbudget_list() {
     return this.baseUrl() + '/master_budgets'
   }
-};
+
+  static category_list(){
+    return this.baseUrl() + '/categories'
+  }
+}
 
 class Helper {
-  static authFetch = (method, name, data=null, urlParams={}) => {
+  static authFetch = (method, name, data = null, urlParams = {}) => {
     console.log('params are:', urlParams);
     const requestDetails = {
       method: method,
@@ -48,13 +59,15 @@ class Helper {
     };
     if (data) requestDetails.body = JSON.stringify(data);
     const r = new Request(Helper.api_url(name, urlParams), requestDetails);
-    console.log('req' ,r);
+    console.log('req', r);
     return fetch(r).then(resp => {
       if (resp.ok) {
-        return(resp.json())
+        return (resp.json())
       } else {
-        throw resp
+        throw resp.json()
       }
+    }).catch(error_promise => {
+      error_promise.then(error_data => {return error_data})
     })
   };
 
@@ -62,7 +75,7 @@ class Helper {
     return moment(time).format('D MMM LT')
   }
 
-  static storeToken = (token)=>{
+  static storeToken = (token)=> {
     docCookies.setItem('token', token)
   };
   static getToken = () => {
@@ -90,12 +103,17 @@ class Helper {
   };
 
   static baseUrl = ()=> {
-   return 'http://expenses.dev/api/v1'
+    return 'http://expenses.dev/api/v1'
   };
 
   static api_url = (name, params) => {
     return APIEndpoints[name](params)
   }
+  static onInputChange = (event) => {
+    console.log('event', event, 'this', this);
+    this.setState({[event.target.name]: event.target.value});
+  }
+
 
 }
 

@@ -1,0 +1,18 @@
+#!/bin/sh
+# expects you to be in master environment
+
+branch=$(git symbolic-ref HEAD | sed -e 's,.*/\(.*\),\1,');
+
+deploy() {
+
+	npm run build
+	scp -r build ubuntu@dollardollar.io:expenses-client
+}
+
+
+if [ $branch = "master" ]; then
+	deploy;
+else
+	echo 'Not on Master or Development branch'
+fi
+
