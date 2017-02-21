@@ -102,11 +102,9 @@ export class RecordList extends Component {
           <table className='table-striped table'>
             <tbody>
             <tr>
-              <th>Id</th>
+              <th>Time</th>
               <th>Name</th>
               <th>Amount</th>
-              <th>Category</th>
-              <th>Time</th>
             </tr>
             {records.map(record => {
               return Record(record)
@@ -129,14 +127,13 @@ export class RecordList extends Component {
 
 const Record = (record)=>
   <tr key={record.id}>
-    <td>{record.id}</td>
+    <td>{moment(record.time).format('D MMM')}</td>
     <td>
       <span style={{'font-weight':'bold'}}>{record.name}</span> <br/>
-      {record.type}
+      {record.type} - {record.category} <br/>
+      <span></span>
     </td>
     <td>{record.amount}</td>
-    <td>{record.category}</td>
-    <td>{moment(record.time).format('D MMM')}</td>
   </tr>
 
 

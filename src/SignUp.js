@@ -7,7 +7,7 @@ export class SignUp extends Component {
     super(props)
     this.state = {
       household: 'something',
-      username: 'whee',
+      username: 'deepan0710@gmail.com',
       password: 'password',
       password_repeat: 'password',
       errors: null
@@ -56,8 +56,8 @@ export class SignUp extends Component {
               {errors && errors.household ? <div>{errors.household}</div>: null}
             </div>
             <div className='form-input'>
-              <label>Username</label>
-              <input type="text" name='username' value={username} onChange={this.inputChanged.bind(this)} required/>
+              <label>Email</label>
+              <input type="email" name='username' value={username} onChange={this.inputChanged.bind(this)} required/>
               {errors && errors.username ? <div>{errors.username}</div>: null}
             </div>
 

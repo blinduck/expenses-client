@@ -46,7 +46,7 @@ export class Login extends Component {
         <h2>Expenses</h2>
         <form onSubmit={this.login}>
           <div className='form-input'>
-            <label>Username: </label>
+            <label>Email: </label>
             <input type="text" onChange={this.onInputChange} value={username} name='username'/>
           </div>
           <div className='form-input'>

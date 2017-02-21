@@ -12,7 +12,7 @@ export class Base extends Component {
     this.setTitle = this.setTitle.bind(this);
     this.state = {
       open: false,
-      title: 'something'
+      title: 'Dollar Dollar'
     }
   }
 

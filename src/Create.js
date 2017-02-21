@@ -139,18 +139,6 @@ export class Create extends Component{
 
           : <div>Loading..</div>}
 
-        {this.state.record ?
-          <div>
-            <h2>Record</h2>
-            {Object.keys(this.state.record).map((key) => {
-              const val = this.state.record[key]
-              return (<p key={key}> {key}: {JSON.stringify(val)} </p>)
-            })}
-          </div>
-
-        : null }
-
-
       </div>
     )
   }

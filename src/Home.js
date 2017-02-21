@@ -38,15 +38,11 @@ export class Home extends Component {
               masterbudgets.map(mb => {return MasterBudget(mb)}) :
               <div>
                 No budgets yet.
-                <button
-                    className="btn btn-ok btn-block">
-                  <Link to="/create-budget" className='nostyle'>
-                    Create Budget
-                  </Link>
-
-                </button>
               </div>
           }
+            <Link to="/create-budget">
+              Create New Budget
+            </Link>
         </div>
     )
   }
