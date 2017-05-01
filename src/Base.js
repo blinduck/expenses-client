@@ -37,6 +37,7 @@ export class Base extends Component {
   }
   componentDidMount(){
     if (!Helper.isLoggedIn()) {browserHistory.push('/login')}
+    //browserHistory.push('/home')
   }
 
 
@@ -70,6 +71,12 @@ export class Base extends Component {
               <a href=""
                  onClick={this.goTo.bind(this, '/categories')}>
                 Categories
+              </a>
+            </li>
+            <li>
+              <a href=""
+                 onClick={this.goTo.bind(this, '/summary')}>
+               Summary
               </a>
             </li>
             <li>

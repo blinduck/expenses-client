@@ -138,7 +138,7 @@ const Record = (record)=>
 
 
 const MonthSelector = (value, onChange)=>
-  <select value={value} onChange={onChange}>
+  <select style={{display: 'block'}} value={value} onChange={onChange}>
     {moment.monthsShort().map((month, index) => {
       return <option key={month} value={index}>{month}</option>
     })}

@@ -138,6 +138,23 @@ td {
     padding: 15px;
 }
 
+.selected {
+    background: #286090;
+}
+.pill {
+    cursor: pointer;
+    padding: 8px 15px;
+    margin: 0 10px 10px 0;
+    border: 1px solid grey;
+    border-radius: 10px;
+    display: inline-block;
+}
+
+.pills {
+    padding-top: 10px;
+}
+
+
 /* react datetime styleshee*/
 
 /*!

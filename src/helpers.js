@@ -45,6 +45,12 @@ class APIEndpoints {
   static category_list(){
     return this.baseUrl() + '/categories'
   }
+
+  static summary(params){
+    let url = this.baseUrl() + '/summary'
+    if (params) url += '?' + this.paramStr(params)
+    return url
+  }
 }
 
 class Helper {

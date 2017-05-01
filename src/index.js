@@ -12,6 +12,7 @@ import moment from 'moment'
 import {SignUp} from './SignUp'
 import CreateBudget from './CreateBudget.js'
 import Category from './Category.js'
+import Summary from './Summary.js'
 
 console.log('env', process.env.NODE_ENV); 
 
@@ -29,6 +30,7 @@ ReactDOM.render((
         <Route path="/expense-list" component={RecordList}/>
         <Route path="/create-budget" component={CreateBudget}/>
         <Route path="/categories" component={Category}/>
+        <Route path="/summary" component={Summary}/>
       </Route>
 
     </Router>
