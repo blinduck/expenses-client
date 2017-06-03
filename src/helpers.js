@@ -108,9 +108,9 @@ class Helper {
     return false
   };
 
-  static baseUrl = ()=> {
-    return 'http://expenses.dev/api/v1'
-  };
+  //static baseUrl = ()=> {
+  //  return 'http://expenses.dev/api/v1'
+  //};
 
   static api_url = (name, params) => {
     return APIEndpoints[name](params)

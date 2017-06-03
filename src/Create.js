@@ -47,7 +47,8 @@ export class Create extends Component{
       baseData: {
         ...baseData,
         categories: baseData.categories.map(c => {
-          c.selected = c.id === category.id;
+          //c.selected = c.id === category.id;
+          category.selected = !category.selected;
           return c})
       }
     });
@@ -203,7 +204,6 @@ export class Create extends Component{
               </div>
 
               <div className="form-input">
-                <label>Time: {JSON.stringify(record.time)} </label>
                 <Datetime onChange={this.timeChanged}
                           value={this.state.record.time}
                     input={false}/>
@@ -211,11 +211,7 @@ export class Create extends Component{
 
               <div className="form-input">
                 <label>
-                  Category: {record.category ?
-                    <span>{record.categoryName} <button
-                        type="button"
-                        onClick={this.clearPills.bind(this, 'categories', 'category')}>Remove</button></span> :
-                    'None'}
+                  Categories
                 </label>
                  <Pills
                  pills={baseData.categories}
