@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link, browserHistory } from 'react-router';
 import Helper from './helpers.js';
 import moment from 'moment';
+import _ from 'lodash';
 
 
 export class Home extends Component {
@@ -11,7 +12,9 @@ export class Home extends Component {
     console.log('constructor is called');
     this.setTitle = props.setTitle;
     this.state = {
-      masterbudgets: []
+      masterbudgets: [],
+      personal: [],
+      household: []
     }
   }
 
@@ -22,22 +25,36 @@ export class Home extends Component {
 
   fetchBudgets() {
     Helper.authFetch('get', 'masterbudget_list').then(resp=> {
-      const masterbudgets = resp.results;
+      const masterbudgets = _.groupBy(resp.results, item => item.expense_type);
+      //const masterbudgets = resp.results;
+      const personal = masterbudgets.Personal;
+      const household = masterbudgets.Household;
+      console.log('personal', personal);
+      console.log('household', household);
       console.log('masterbudgets', masterbudgets);
-      this.setState({masterbudgets: masterbudgets})
+      this.setState({masterbudgets: masterbudgets, personal: personal, household, household})
     })
   }
 
   render() {
-    const {masterbudgets} = this.state;
+    const {personal, household} = this.state;
+    const masterbudgets =[];
     return (
         <div>
-          <h3>Budgets</h3>
+          <h3>Personal Budgets</h3>
           <hr/>
-          {masterbudgets.length > 0 ?
-              masterbudgets.map(mb => {return MasterBudget(mb)}) :
+          {personal.length > 0 ?
+              personal.map(mb => {return MasterBudget(mb)}) :
               <div>
-                No budgets yet.
+                No personal budgets yet.
+              </div>
+          }
+          <h3>Household Budgets</h3>
+          <hr/>
+          {household.length > 0 ?
+              household.map(mb => {return MasterBudget(mb)}) :
+              <div>
+                No household budgets yet.
               </div>
           }
             <Link to="/create-budget">
