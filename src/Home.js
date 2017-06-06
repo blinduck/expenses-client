@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Link, browserHistory } from 'react-router'
-import Helper from './helpers.js'
-import moment from 'moment'
+import { Link, browserHistory } from 'react-router';
+import Helper from './helpers.js';
+import moment from 'moment';
 
 
 export class Home extends Component {

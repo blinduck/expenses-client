@@ -29,7 +29,7 @@ export class Create extends Component{
       user: Helper.getUser().id,
       name: '',
       amount: '',
-      category: null,
+      categories: new Set(),
       masterbudget: null,
       time: new Date(),
       type: data.record_type_choices[0]
@@ -38,19 +38,10 @@ export class Create extends Component{
   
   categorySelected = (category) => {
     const {record, baseData} = this.state;
-    this.setState({
-      record: {
-        ...record,
-        category: category.id,
-        categoryName: category.name
-      },
-      baseData: {
-        ...baseData,
-        categories: baseData.categories.map(c => {
-          //c.selected = c.id === category.id;
-          category.selected = !category.selected;
-          return c})
-      }
+    category.selected = !category.selected;
+    category.selected ? record.categories.add(category.id) : record.categories.delete(category.id);
+    this.setState({record, baseData}, ()=> {
+      console.log(this.state.record);
     });
   }
   budgetSelected = (mb)=> {
@@ -106,6 +97,7 @@ export class Create extends Component{
     // create the record on the server
     event.preventDefault();
     const record = this.state.record;
+    record.categories = Array.from(record.categories)
     Helper.authFetch('post', 'create_record', record).then((data) => {
       console.log('reset run');
       this.resetForm();

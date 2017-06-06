@@ -1,6 +1,7 @@
 import { browserHistory } from 'react-router'
 import docCookies from './docCookies.js'
 import moment from 'moment';
+import store from 'store';
 
 const basebaseUrl = process.env.NODE_ENV == 'production' ? 'http://dollardollar.io' : 'http://expenses.dev';
 
@@ -82,35 +83,41 @@ class Helper {
   }
 
   static storeToken = (token)=> {
-    docCookies.setItem('token', token)
+    store.set('token', token)
+    //docCookies.setItem('token', token)
   };
   static getToken = () => {
-    const token = docCookies.getItem('token');
-    return token;
+    //const token = docCookies.getItem('token');
+    //return token;
+    return store.get('token')
   };
 
   static setUser = (data) => {
-    docCookies.setItem('user', JSON.stringify(data))
+    //docCookies.setItem('user', JSON.stringify(data))
+    store.set('user', data)
   };
 
   static getUser = () => {
-    return JSON.parse(docCookies.getItem('user'))
+    //return JSON.parse(docCookies.getItem('user'))
+    return store.get('user')
   };
   static logOut = ()=> {
-    docCookies.removeItem('token');
+    store.clearAll();
+    //docCookies.removeItem('token');
     browserHistory.push('/login');
   };
 
   static isLoggedIn = ()=> {
-    if (docCookies.getItem('token')) {
+    //if (docCookies.getItem('token')) {
+    if (store.get('token')) {
       return true
     }
     return false
   };
 
-  //static baseUrl = ()=> {
-  //  return 'http://expenses.dev/api/v1'
-  //};
+  static baseUrl() {
+    return `${basebaseUrl}/api/v1`
+  }
 
   static api_url = (name, params) => {
     return APIEndpoints[name](params)
