@@ -3,6 +3,8 @@ import { Link, browserHistory } from 'react-router'
 import Helper from './helpers.js'
 import Datetime from 'react-datetime'
 import Pills from './Pills.js'
+import { toast } from 'react-toastify';
+import {Toasty} from './Base.js';
 
 const Input = (label, name, type, value, onChange)=>
   <div>
@@ -100,7 +102,9 @@ export class Create extends Component{
     record.categories = Array.from(record.categories)
     Helper.authFetch('post', 'create_record', record).then((data) => {
       console.log('reset run');
-      this.resetForm();
+      toast(<Toasty message="Expense Added"></Toasty>)
+      browserHistory.push('/home');
+      //this.resetForm();
     }).catch(error => console.log('error caught'))
 
   }

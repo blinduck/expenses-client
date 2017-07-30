@@ -65,6 +65,7 @@ export class Home extends Component {
   }
 }
 
+
 const MasterBudget = (mb)=>
     <div key={mb.id} className='budget-container'>
       <h3>
@@ -74,7 +75,7 @@ const MasterBudget = (mb)=>
       <p>
         {moment(mb.current_budget.start_time).format('D MMM')} to {moment(mb.current_budget.end_time).format('D MMM')}
       </p>
-    <span className='remainder' style={{'font-size': '30px'}}>
+    <span className='remainder' style={{'fontSize': '30px'}}>
       ${mb.current_budget.remainder} / {mb.amount}
     </span>
       <hr style={{width:'100%'}}/>

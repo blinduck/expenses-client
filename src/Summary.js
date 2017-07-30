@@ -42,6 +42,7 @@ export class Summary extends Component {
   }
 
   render() {
+    const {type_summary, category_summary } = this.state;
     return <div>
       <div>
         {MonthSelector(this.state.selectedMonth, this.monthSelected.bind(this))}
@@ -51,10 +52,20 @@ export class Summary extends Component {
         <option value="Personal">Personal</option>
         <option value="Household">Household</option>
       </select>
-      {this.state.category_summary && this.state.category_summary.map(cat => {
+      {category_summary && category_summary.map(cat => {
         return <p key={cat[0]}>{cat[0]}: {cat[1]} </p>
-
       })}
+      <hr/>
+      {type_summary ?
+          <div>
+            <h2>Personal: {type_summary.Personal}</h2>
+            <h2>Household</h2>
+            {type_summary.Household.map(d => {
+              return <p>{d.user__username}: {d.total} </p>
+            })}
+          </div>
+          : null}
+
     </div>
   }
 }
