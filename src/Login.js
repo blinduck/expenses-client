@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 //import './App.css';
-import { Link, browserHistory } from 'react-router'
+import { Link} from 'react-router-dom'
 import Helper from './helpers.js'
+import {withRouter} from 'react-router-dom'
 
-export class Login extends Component {
+class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -36,7 +37,8 @@ export class Login extends Component {
       Helper.storeToken(data.auth_token);
       Helper.setUser(data);
       console.log('user', Helper.getUser());
-      browserHistory.push('/home')
+      //browserHistory.push('/home')
+      this.props.history.push('/home')
     }).catch(error => console.log(error));
   }
   render() {
@@ -63,5 +65,5 @@ export class Login extends Component {
 }
 
 
-export default Login
+export default withRouter(Login)
 

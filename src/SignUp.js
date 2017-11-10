@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import Helper from './helpers.js'
-import {Link, browserHistory} from 'react-router'
+import {Link, withRouter} from 'react-router-dom'
 
-export class SignUp extends Component {
+class SignUp extends Component {
   constructor(props){
     super(props)
     this.state = {
@@ -32,7 +32,7 @@ export class SignUp extends Component {
     }).then(data => {
       Helper.storeToken(data.auth_token);
       Helper.setUser(data);
-      browserHistory.push('/home');
+      this.props.history.push('/home');
     }).catch(error => {
       console.log('caught error', error);
       return error
@@ -80,4 +80,4 @@ export class SignUp extends Component {
 }
 
 
-export default SignUp
+export default withRouter(SignUp)

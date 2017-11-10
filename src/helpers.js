@@ -1,7 +1,8 @@
-import { browserHistory } from 'react-router'
 import docCookies from './docCookies.js'
 import moment from 'moment';
 import store from 'store';
+import {withRouter} from 'react-router-dom'
+window.store = store;
 
 const basebaseUrl = process.env.NODE_ENV == 'production' ? 'http://dollardollar.io' : 'http://expenses.dev';
 
@@ -31,6 +32,12 @@ class APIEndpoints {
 
   static record_list(params) {
     let url = this.baseUrl() + '/records';
+    if (params) url += '?' + this.paramStr(params)
+    return url
+  }
+
+  static budgets_with_records(params) {
+    let url = this.baseUrl() + '/budgets_with_records';
     if (params) url += '?' + this.paramStr(params)
     return url
   }
@@ -103,8 +110,6 @@ class Helper {
   };
   static logOut = ()=> {
     store.clearAll();
-    //docCookies.removeItem('token');
-    browserHistory.push('/login');
   };
 
   static isLoggedIn = ()=> {
@@ -130,7 +135,5 @@ class Helper {
 
 }
 
-
-
-export default Helper;
+export default withRouter(Helper);
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, browserHistory } from 'react-router'
+import { Link, withRouter } from 'react-router-dom'
 import Helper from './helpers.js'
 import Datetime from 'react-datetime'
 import Pills from './Pills.js'
@@ -12,7 +12,7 @@ const Input = (label, name, type, value, onChange)=>
     <input type={type} name={name} value={value} onChange={onChange}/>
   </div>
 
-export class Create extends Component{
+class Create extends Component{
   constructor(props){
     super(props);
     this.state = {
@@ -103,7 +103,7 @@ export class Create extends Component{
     Helper.authFetch('post', 'create_record', record).then((data) => {
       console.log('reset run');
       toast(<Toasty message="Expense Added"></Toasty>)
-      browserHistory.push('/home');
+      this.props.history.push('/home');
       //this.resetForm();
     }).catch(error => console.log('error caught'))
 
@@ -236,12 +236,11 @@ export class Create extends Component{
             </form>
 
           </div> : <div>Loading..</div> }
-          <button className="btn btn-block" onClick={this.printRecord.bind(this)}>print</button>
       </div>
     )
   }
 }
 
 
-export default Create
+export default withRouter(Create)
 

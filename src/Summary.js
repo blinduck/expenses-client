@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import Helper from './helpers.js'
 import moment from 'moment'
 
-export class Summary extends Component {
+class Summary extends Component {
   constructor(props) {
     super(props)
     let currentDate = new Date()

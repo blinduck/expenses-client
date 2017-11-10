@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, browserHistory } from 'react-router'
+import { Link } from 'react-router-dom'
 import Helper from './helpers.js'
 import moment from 'moment'
 

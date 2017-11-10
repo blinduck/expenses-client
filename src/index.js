@@ -1,37 +1,31 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-//import {App, Test} from './App';
 import Login from './Login'
-import {Home} from './Home'
-import {Base} from './Base'
-import {RecordList} from './RecordList'
-import {Create} from './Create'
+import Base from './Base'
 import './index.css';
-import { Router, Route, browserHistory, IndexRedirect } from 'react-router'
-import moment from 'moment'
-import {SignUp} from './SignUp'
-import CreateBudget from './CreateBudget.js'
-import Category from './Category.js'
-import Summary from './Summary.js'
+import { BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom'
+import SignUp from './SignUp'
+//import CreateBudget from './CreateBudget.js'
+//import Summary from './Summary.js'
+//import RecordsByBudget from './RecordsByBudget.js'
 
-window.moment = moment;
 
 window.app = {}
+//<Router history={browserHistory}>
+//  <Route path="/" component={Base}>
+//    <Route name='budgetWithRecords' path="/budgets/:id" component={RecordsByBudget}/>
+//  </Route>
 
 ReactDOM.render((
-        <Router history={browserHistory}>
-          <Route path="/login" component={Login}/>
-          <Route path="/signup" component={SignUp}/>
-          <Route path="/" component={Base}>
-            <IndexRedirect to="/home"/>
-            <Route path="/home" component={Home}/>
-            <Route path="/create" component={Create}/>
-            <Route path="/expense-list" component={RecordList}/>
-            <Route path="/create-budget" component={CreateBudget}/>
-            <Route path="/categories" component={Category}/>
-            <Route path="/summary" component={Summary}/>
-          </Route>
-
+        <Router>
+          <div>
+            <Switch>
+              <Route path="/login" component={Login}></Route>
+              <Route path="/signup" component={SignUp}></Route>
+              <Redirect exact path="/" to="/home"/>
+              <Route path="/" component={Base}/>
+            </Switch>
+          </div>
         </Router>
     ), document.getElementById('root')
 );
