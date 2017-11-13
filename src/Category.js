@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Helper from './helpers.js'
+import { Link, withRouter } from 'react-router-dom'
 
 export class Category extends Component {
   constructor(props) {
@@ -31,61 +32,23 @@ export class Category extends Component {
     this.setState({[event.target.name]: event.target.value})
   }
 
-  createCategory(event) {
-    event.preventDefault();
-    Helper.authFetch('post',
-        'category_list', {
-          name: this.state.newCategoryName,
-          cat_type: this.state.newCategoryType
-        }).then(resp => {
-          var currentCats = this.state.categories.slice();
-          console.log('current cats', currentCats);
-          currentCats.unshift(resp);
-          console.log(currentCats);
-          this.setState({categories: currentCats})
-        })
-  }
-
   render() {
     const {categories, newCategoryName, newCategoryType} = this.state;
     return (
         <div>
           {categories.length ?
               categories.map(cat => {
-                return <div key={cat.id}>{cat.name} ({cat.cat_type})</div>
+                return <div key={cat.id}>
+                  <Link to={{pathname: `categories/${cat.id}`}}>
+                    {cat.name} ({cat.cat_type})
+                  </Link>
+                </div>
               }) : <div>No Categories</div>
           }
           <hr/>
-          <form onSubmit={this.createCategory.bind(this)}>
-            <div>
-              <h3>Create New Category</h3>
-              <div style={{'margin-bottom': '10px'}}>
-                <label>Category Name: </label>
-                <input type="text"
-                       required
-                       value={newCategoryName}
-                       name='newCategoryName'
-                       onChange={this.inputChanged.bind(this)}
-                    />
-              </div>
-              <div>
-                <label>Category Type</label>
-                <select name="cat_type"
-                        required
-                        value="newCategoryType"
-                        name='newCategoryType'
-                        onChange={this.inputChanged.bind(this)}
-                    >
-                  <option value="Personal">Personal</option>
-                  <option value="Household">Household</option>
-                </select>
-              </div>
-            </div>
-            <button className="btn btn-ok float-right">Create</button>
-            <p>{JSON.stringify(newCategoryName)}</p>
-            <p>{JSON.stringify(newCategoryType)}</p>
-          </form>
-
+          <Link to="/new_category">
+            Create New Category
+          </Link>
         </div>
 
     )

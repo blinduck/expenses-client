@@ -2,6 +2,7 @@ import docCookies from './docCookies.js'
 import moment from 'moment';
 import store from 'store';
 import {withRouter} from 'react-router-dom'
+import axios from 'axios'
 window.store = store;
 
 const basebaseUrl = process.env.NODE_ENV == 'production' ? 'http://dollardollar.io' : 'http://expenses.dev';
@@ -62,6 +63,21 @@ class APIEndpoints {
 }
 
 class Helper {
+  static axFetch = (method, url, data=null, auth=true) => {
+    let options = {
+      method: method,
+      url: APIEndpoints.baseUrl() + "/" +  url,
+      data: data,
+      headers: {
+        'content-type': 'application/json',
+      }
+    }
+    if (auth) {
+      options['headers']['Authorization'] = `Token ${Helper.getToken()}`
+    }
+    return axios(options)
+  }
+
   static authFetch = (method, name, data = null, urlParams = {}) => {
     console.log('params are:', urlParams);
     const requestDetails = {
@@ -131,7 +147,6 @@ class Helper {
     console.log('event', event, 'this', this);
     this.setState({[event.target.name]: event.target.value});
   }
-
 
 }
 

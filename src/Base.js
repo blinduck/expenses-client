@@ -9,6 +9,7 @@ import RecordList from './RecordList';
 import Category from './Category.js';
 import Summary from './Summary.js'
 import BudgetsWithRecords from './BudgetsWithRecords.js'
+import CategoryForm from './CategoryForm.js'
 
 class Base extends Component {
   constructor(props) {
@@ -99,7 +100,9 @@ class Base extends Component {
             <Route path="/home" render={()=> <Home setTitle={this.setTitle}/>}/>
             <Route path="/create" render={()=> <Create setTitle={this.setTitle}/>}/>
             <Route path="/expense-list" render={()=> <RecordList setTitle={this.setTitle}/>}/>
+            <Route path="/categories/:id" render={()=> <CategoryForm setTitle={this.setTitle}/>}/>
             <Route path="/categories" render={()=> <Category setTitle={this.setTitle}/>}/>
+            <Route path="/new_category" render={()=> <CategoryForm setTitle={this.setTitle}/>}/>
             <Route path="/summary" render={()=> <Summary setTitle={this.setTitle}/>}/>
             <Route name='budgetWithRecords' path="/budgets/:id" render={({match})=> <BudgetsWithRecords setTitle={this.setTitle} match={match}/>}/>
           </Switch>
