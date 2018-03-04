@@ -122,7 +122,6 @@ export class RecordList extends Component {
                   <th>Time</th>
                   <th>Name</th>
                   <th>Budget</th>
-                  <th>Type</th>
                   <th>Amount</th>
                   <th></th>
                 </tr>
@@ -165,7 +164,6 @@ class RecordView extends Component {
         <span></span>
       </td>
       <td>{record.masterbudget || 'None'}</td>
-      <td>{record.type}</td>
       <td>{record.amount}</td>
       <td style={{position: 'relative'}} onClick={() => this.setState(current => this.setState({ seeOptions: !current.seeOptions }))}>
         <div style={{
