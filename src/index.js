@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import Login from './Login'
 import Base from './Base'
 import './index.css';
+import './fontawesome-all.js';
 import { BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom'
 import SignUp from './SignUp'
 //import CreateBudget from './CreateBudget.js'
@@ -11,10 +12,6 @@ import SignUp from './SignUp'
 
 
 window.app = {}
-//<Router history={browserHistory}>
-//  <Route path="/" component={Base}>
-//    <Route name='budgetWithRecords' path="/budgets/:id" component={RecordsByBudget}/>
-//  </Route>
 
 ReactDOM.render((
         <Router>

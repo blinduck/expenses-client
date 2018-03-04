@@ -41,7 +41,7 @@ class Home extends Component {
     const masterbudgets = [];
     return (
         <div>
-          <h3>Personal Budgets</h3>
+          <h2>Personal Budgets</h2>
           <hr/>
           {personal.length > 0 ?
               personal.map(mb => {
@@ -51,7 +51,7 @@ class Home extends Component {
                 No personal budgets yet.
               </div>
           }
-          <h3>Household Budgets</h3>
+          <h2>Household Budgets</h2>
           <hr/>
           {household.length > 0 ?
               household.map(mb => {

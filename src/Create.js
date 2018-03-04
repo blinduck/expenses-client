@@ -2,162 +2,80 @@ import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom'
 import Helper from './helpers.js'
 import Datetime from 'react-datetime'
-import Pills from './Pills.js'
 import { toast } from 'react-toastify';
 import {Toasty} from './Base.js';
+import {Record} from './models/Record.js'
 
-const Input = (label, name, type, value, onChange)=>
-  <div>
-    <label>{label}</label>
-    <input type={type} name={name} value={value} onChange={onChange}/>
-  </div>
-
-class Create extends Component{
-  constructor(props){
+class Create extends Component {
+  constructor(props) {
     super(props);
+    this.record_id = props.match.params && props.match.params.id;
     this.state = {
+      loading: true
     };
     this.setTitle = props.setTitle;
-    this.createRecord = this.createRecord.bind(this);
-    this.timeChanged = this.timeChanged.bind(this);
-    this.inputChanged = this.inputChanged.bind(this);
-    this.resetForm = this.resetForm.bind(this);
-  };
-
-
-  emptyRecord(data){
-    // creates an empty initial record used to set the base state
-    return {
-      user: Helper.getUser().id,
-      name: '',
-      amount: '',
-      categories: new Set(),
-      masterbudget: null,
-      time: new Date(),
-      type: data.record_type_choices[0]
-    }
   }
-  
+
   categorySelected = (category) => {
-    const {record, baseData} = this.state;
-    category.selected = !category.selected;
-    category.selected ? record.categories.add(category.id) : record.categories.delete(category.id);
-    this.setState({record, baseData}, ()=> {
-      console.log(this.state.record);
-    });
+    let record = this.state.record;
+    record.categories.has(category.id) ?
+        record.categories.delete(category.id) :
+        record.categories.add(category.id);
+    this.setState({record});
   }
   budgetSelected = (mb)=> {
-    const {record, baseData} = this.state;
-    this.setState({
-      record: {
-        ...record,
-        masterbudget: mb.id,
-        masterbudgetName: mb.name,
-      },
-      baseData: {
-        ...baseData,
-        masterbudgets: baseData.masterbudgets.map(master => {
-          master.selected = master.id === mb.id;
-          return master;
-        })
-      }
-    })
-  }
-  recordTypeSelected = (choice) => {
-    const {record, baseData} = this.state;
-    this.setState({
-      baseData: {
-        ...baseData,
-        record_type_choices: baseData.record_type_choices.map((c)=> {
-          c.selected = c.id === choice.id
-          return c
-        }),
-        masterbudgets: baseData.masterbudgets.map(c => {c.selected = false; return c})
-      },
-      record: {
-        ...record,
-        type: choice.name,
-        masterbudget: null
-      }
-    })
-  }
-  clearPills = (baseDataField, recordField)=>{
-    const {baseData, record} = this.state;
-    this.setState({
-      baseData: {
-        ...baseData,
-        [baseDataField]: baseData[baseDataField].map(c => {c.selected = false; return c})
-      },
-      record: {
-        ...record,
-        [recordField]: null
-      }
-    })
+    let record = this.state.record;
+    record.masterbudget = mb.id;
+    record.masterbudgetName = mb.name;
+    this.setState({record});
   }
 
-  createRecord(event){
+  recordTypeSelected = (choice) => {
+    // reset masterbudget if record type changes
+    let record = this.state.record;
+    record.type = choice;
+    record.masterbudget = null;
+    record.masterbudget = ''
+    this.setState({record})
+  }
+
+  createOrUpdateRecord(event) {
     // create the record on the server
     event.preventDefault();
-    const record = this.state.record;
+    const record = new Record(this.state.record);
     record.categories = Array.from(record.categories)
-    Helper.authFetch('post', 'create_record', record).then((data) => {
-      console.log('reset run');
+    let promise = record.id ? record.updateRecord() : record.createRecord();
+    promise.then((data) => {
       toast(<Toasty message="Expense Added"></Toasty>)
       this.props.history.push('/home');
-      //this.resetForm();
     }).catch(error => console.log('error caught'))
 
   }
 
-  printRecord(){
+  printRecord() {
     for (let x in this.state.record) {
       console.log(x, this.state.record[x]);
     }
   }
 
-  resetForm(){
-    const emptyRecord = this.emptyRecord(this.state.baseData);
-    const baseData = this.state.baseData;
-    const {categories, masterbudgets} = baseData;
-    this.setState({
-      record: emptyRecord,
-      baseData: {
-        ...baseData,
-        categories: categories.map(cat=> {cat.selected = false; return cat}),
-        masterbudgets: masterbudgets.map(mb => {mb.selected = false; return mb}),
-      }
-    });
-  }
   componentDidMount() {
-    // need to fetch the list of budgets and categories that the user
-    // has
-    Helper.authFetch('get', 'base_data').then((data) => {
-      const {record_type_choices, masterbudgets, categories} = data;
-      this.setState({
-        baseData: {
-          ...data,
-          record_type_choices: record_type_choices.map((choice, index)=> {
-            return {name: choice, id: index, selected: index===0, verbose: choice}
-          }),
-          categories: categories.map(c => {
-            c.selected = false;
-            c.verbose = c.name;
-            return c;
-          }),
-          masterbudgets: masterbudgets.map(mb => {
-            mb.selected = false;
-            mb.verbose = mb.name;
-            return mb;
-          })
-        },
-        record: this.emptyRecord(data)
-      }, ()=>
-      {console.log('basedata',this.state.baseData);
-      }
-      );
+    this.record_id ? this.setTitle('Update') : this.setTitle('Add');
+    let recordPromise = new Promise((resolve, reject) => {
+      this.record_id ?
+          resolve(Record.fetchRecord(this.record_id)) :
+          resolve(new Record)
     })
-    this.setTitle('Add');
+    let baseDataPromise = Helper.authFetch('get', 'base_data');
+    Promise.all([recordPromise, baseDataPromise]).then((results) => {
+      let base_data = results[1]
+      this.setState({
+        ...base_data,
+        record: results[0],
+        loading: false
+      });
+    })
   }
+
   timeChanged(value) {
     const record = this.state.record;
     const newRecord = {
@@ -166,6 +84,7 @@ class Create extends Component{
     };
     this.setState({record: newRecord})
   }
+
   inputChanged(varName, event) {
     const record = this.state.record;
     const newRecord = {
@@ -175,68 +94,88 @@ class Create extends Component{
     this.setState({record: newRecord})
   }
 
-  render(){
-    const {record} = this.state;
-    const {baseData} = this.state;
+  render() {
+    const {record, categories, masterbudgets, loading} = this.state;
+
+    if (loading) return (<div>Loading...</div>)
     return (
-      <div>
-        {this.state.baseData && this.state.record ?
+        <div>
           <div>
-            <form onSubmit={this.createRecord}>
+            <form onSubmit={this.createOrUpdateRecord.bind(this)}>
               <div className='form-input'>
                 <label>Name:</label>
                 <input type="text" name='name'
-                       value={this.state.record.name}
+                       value={record.name}
                        onChange={this.inputChanged.bind(this, 'name')} required/>
               </div>
 
               <div className="form-input">
                 <label> Amount:</label>
                 <input type="number" name='amount'
-                  value={this.state.record.amount}
+                       value={record.amount}
                        onChange={this.inputChanged.bind(this, 'amount')}
                        required
-                  />
+                    />
               </div>
 
               <div className="form-input">
-                <Datetime onChange={this.timeChanged}
-                          value={this.state.record.time}
-                    input={false}/>
+                <Datetime onChange={this.timeChanged.bind(this)}
+                          value={record.time}
+                          input={false}/>
               </div>
 
               <div className="form-input">
                 <label>
                   Categories
                 </label>
-                 <Pills
-                 pills={baseData.categories}
-                 keyField='id' onChange={this.categorySelected.bind(this)}>
-                 </Pills>
+                <section>
+                  { categories.map(cat => {
+                    return (<span
+                        onClick={this.categorySelected.bind(this, cat)}
+                        key={cat.id} className={record.categories.has(cat.id) ? 'pill selected' : 'pill'}>
+                      {cat.name}
+                    </span>)
+                  }) }
+                </section>
               </div>
 
               <div className="form-input" onChange={this.inputChanged.bind(this, 'type')}>
                 <label>Type</label>
-                 <Pills pills={baseData.record_type_choices}
-                 keyField='name' onChange={this.recordTypeSelected.bind(this)}></Pills>
+                <section>
+                  {record.type_choices.map(rType => {
+                    return <span
+                        className={rType == record.type ? 'pill selected' : 'pill'}
+                        onClick={this.recordTypeSelected.bind(this, rType)}
+                        key={rType}>{rType}</span>
+                  })}
+                </section>
               </div>
               <div className="form-input">
                 <label>Budget: {record.masterbudget ?
-                  <span>{record.masterbudgetName} <button
-                      onClick={this.clearPills.bind(this, 'masterbudgets', 'masterbudget')} type='button'>Remove</button>
+                    <span>{record.masterbudgetName}
+                      <button
+                          onClick={()=> { record.masterbudget = record.masterbudgetName = null;
+                            this.setState({record}); }} type='button'>Remove
+                      </button>
                   </span>
                     : 'None'
                 }</label>
-                <Pills
-                    pills={baseData.masterbudgets.filter(mb=> {return mb.expense_type === record.type})}
-                    keyField='id' onChange={this.budgetSelected.bind(this)}></Pills>
-              </div>
 
+                <section>
+                  { masterbudgets.filter(mb=> {
+                    return mb.expense_type === record.type
+                  }).map(mb => {
+                    return <span onClick={this.budgetSelected.bind(this, mb)}
+                                 key={mb.id} className={record.masterbudget == mb.id ? 'pill selected' : 'pill'}>
+                      {mb.name}
+                    </span>
+                  })}
+                </section>
+              </div>
               <button className='btn btn-block btn-ok' type="submit">Add</button>
             </form>
-
-          </div> : <div>Loading..</div> }
-      </div>
+          </div>
+        </div>
     )
   }
 }

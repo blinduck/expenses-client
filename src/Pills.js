@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 
-// Single Select Pill
 // expects props to have pills, keyField and onChange
 const Pills = (props) => {
   return  (

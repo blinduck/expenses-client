@@ -56,7 +56,14 @@ class Base extends Component {
         <div className={this.state.open ? "drawer drawer-open" : "drawer"}>
           <button
             onClick={this.closeDrawer}
-            style={{float: 'right', margin: '15px'}}> Close</button>
+            style={{
+              float: 'right',
+              padding: '15px',
+              border: 'none',
+              background: "none",
+              fontSize: '30px',
+              cursor: "pointer"
+            }}><i className="fas fa-window-close"></i></button>
           <ul>
             <li>
               <a href=""
@@ -66,7 +73,7 @@ class Base extends Component {
             </li>
             <li>
               <a href=""
-                 onClick={this.goTo.bind(this, '/expense-list')}>
+                 onClick={this.goTo.bind(this, '/expenses')}>
                 All Expenses
               </a>
             </li>
@@ -93,13 +100,17 @@ class Base extends Component {
             <img src="/menu.svg" alt="menu" style={{height: '48px'}}/>
           </button>
           <h1 style={{'alignSelf':'center', flex: 1}}>{this.state.title}</h1>
-          <button className="btn btn-ok" onClick={this.goTo.bind(this, '/create')}>Add</button>
+          <button
+              className="btn btn-ok"
+              style={{display: this.props.location.pathname == '/create' ? 'none': 'block'}}
+              onClick={this.goTo.bind(this, '/create')}>Add</button>
         </div>
         <div className='container'>
           <Switch>
             <Route path="/home" render={()=> <Home setTitle={this.setTitle}/>}/>
             <Route path="/create" render={()=> <Create setTitle={this.setTitle}/>}/>
-            <Route path="/expense-list" render={()=> <RecordList setTitle={this.setTitle}/>}/>
+            <Route path="/expenses/:id" render={()=> <Create setTitle={this.setTitle}/>}/>
+            <Route path="/expenses" render={()=> <RecordList setTitle={this.setTitle}/>}/>
             <Route path="/categories/:id" render={()=> <CategoryForm setTitle={this.setTitle}/>}/>
             <Route path="/categories" render={()=> <Category setTitle={this.setTitle}/>}/>
             <Route path="/new_category" render={()=> <CategoryForm setTitle={this.setTitle}/>}/>

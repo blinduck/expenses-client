@@ -11,6 +11,10 @@ body {
     margin-bottom: 20px;
 }
 
+.nodisplay {
+    display: none;
+}
+
 .form-input > label {
     display: block;
     margin-bottom: 10px;
@@ -132,8 +136,19 @@ td {
     transition: left 0.5s;
 }
 
+.drawer ul {
+    padding: 0px;
+}
+
 .drawer li {
     list-style: none;
+    display: block;
+    border-bottom: 1px solid grey;
+}
+
+.drawer a {
+    text-decoration: none;
+    color: black;
     display: block;
     padding: 15px;
 }
