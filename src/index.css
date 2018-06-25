@@ -134,6 +134,7 @@ td {
 .drawer-open {
     left: 0px;
     transition: left 0.5s;
+    position: fixed;
 }
 
 .drawer ul {

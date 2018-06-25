@@ -10,6 +10,8 @@ import Category from './Category.js';
 import Summary from './Summary.js'
 import BudgetsWithRecords from './BudgetsWithRecords.js'
 import CategoryForm from './CategoryForm.js'
+import CreateBudget from './CreateBudget.js'
+import LandingPage from './Landing'
 
 class Base extends Component {
   constructor(props) {
@@ -58,7 +60,6 @@ class Base extends Component {
             onClick={this.closeDrawer}
             style={{
               float: 'right',
-              padding: '15px',
               border: 'none',
               background: "none",
               fontSize: '30px',
@@ -66,46 +67,41 @@ class Base extends Component {
             }}><i className="fas fa-window-close"></i></button>
           <ul>
             <li>
-              <a href=""
-                 onClick={this.goTo.bind(this, "/home")}>
+              <a href="" onClick={this.goTo.bind(this, "/home")}>
                 Home
               </a>
             </li>
             <li>
-              <a href=""
-                 onClick={this.goTo.bind(this, '/expenses')}>
+              <a href="" onClick={this.goTo.bind(this, '/expenses')}>
                 All Expenses
               </a>
             </li>
             <li>
-              <a href=""
-                 onClick={this.goTo.bind(this, '/categories')}>
+              <a href="" onClick={this.goTo.bind(this, '/categories')}>
                 Categories
               </a>
             </li>
             <li>
-              <a href=""
-                 onClick={this.goTo.bind(this, '/summary')}>
+              <a href="" onClick={this.goTo.bind(this, '/summary')}>
                Summary
               </a>
             </li>
-            <li>
-              <a href="" onClick={this.logout}>Logout</a>
+            <li> <a href="" onClick={this.logout}>Logout</a>
             </li>
           </ul>
         </div>
-        <div style={{display: 'flex', 'alignItems': 'center'}}>
+        <div style={{display: 'flex', 'alignItems': 'center', marginTop: '10px'}}>
           <button style={{margin: "6px", background:'none', border:'none'}}
                   onClick={this.toggleDrawer}>
             <img src="/menu.svg" alt="menu" style={{height: '48px'}}/>
           </button>
-          <h1 style={{'alignSelf':'center', flex: 1}}>{this.state.title}</h1>
+          <h2 style={{'alignSelf':'center', flex: 1, marginTop: '8px'}}>{this.state.title}</h2>
           <button
               className="btn btn-ok"
               style={{display: this.props.location.pathname == '/create' ? 'none': 'block'}}
               onClick={this.goTo.bind(this, '/create')}>Add</button>
         </div>
-        <div className='container'>
+        <div className='container-fluid' style={{marginTop: '12px'}}>
           <Switch>
             <Route path="/home" render={()=> <Home setTitle={this.setTitle}/>}/>
             <Route path="/create" render={()=> <Create setTitle={this.setTitle}/>}/>
@@ -115,6 +111,7 @@ class Base extends Component {
             <Route path="/categories" render={()=> <Category setTitle={this.setTitle}/>}/>
             <Route path="/new_category" render={()=> <CategoryForm setTitle={this.setTitle}/>}/>
             <Route path="/summary" render={()=> <Summary setTitle={this.setTitle}/>}/>
+            <Route path="/create-budget" render={()=> <CreateBudget setTitle={this.setTitle}/>}/>
             <Route name='budgetWithRecords' path="/budgets/:id" render={({match})=> <BudgetsWithRecords setTitle={this.setTitle} match={match}/>}/>
           </Switch>
         </div>

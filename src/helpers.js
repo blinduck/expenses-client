@@ -5,7 +5,7 @@ import {withRouter} from 'react-router-dom'
 import axios from 'axios'
 window.store = store;
 
-const basebaseUrl = process.env.NODE_ENV == 'production' ? 'http://dollardollar.io' : 'http://expenses.dev';
+const basebaseUrl = process.env.NODE_ENV == 'production' ? 'http://dollardollar.io' : 'http://expenses.test';
 
 class APIEndpoints {
   // assuming that /api/v1 is already taken into account

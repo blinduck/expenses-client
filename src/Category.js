@@ -35,21 +35,20 @@ export class Category extends Component {
   render() {
     const {categories, newCategoryName, newCategoryType} = this.state;
     return (
-        <div>
+        <ul className="list-group">
           {categories.length ?
               categories.map(cat => {
-                return <div key={cat.id}>
+                return <li className="list-group-item" key={cat.id}>
                   <Link to={{pathname: `categories/${cat.id}`}}>
                     {cat.name} ({cat.cat_type})
                   </Link>
-                </div>
+                </li>
               }) : <div>No Categories</div>
           }
-          <hr/>
-          <Link to="/new_category">
+          <Link className="btn btn-primary" to="/new_category">
             Create New Category
           </Link>
-        </div>
+        </ul>
 
     )
   }

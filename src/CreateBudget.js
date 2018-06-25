@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import Helper from './helpers.js'
-import { Link, browserHistory } from 'react-router'
+import { Link, browserHistory, withRouter } from 'react-router'
+import { toast } from 'react-toastify';
+import {Toasty} from './Base.js';
 
 export class CreateBudget extends Component {
   constructor(props){
@@ -27,7 +29,8 @@ export class CreateBudget extends Component {
       if (resp.ok) {return resp.json()}
     }).then(data => {
       console.log('data', data);
-      browserHistory.push('/home')
+      toast(<Toasty message="Budget Created"></Toasty>)
+      this.props.history.push('/home');
     });
     console.log('send', this.state);
   }
@@ -54,9 +57,9 @@ export class CreateBudget extends Component {
                      name="amount" required
                      value={amount} onChange={this.inputChanged} />
             </div>
-            <div className="form-input">
+            <div className="form-group">
               <label>Period</label>
-              <select name="period" onChange={this.inputChanged}>
+              <select className="form-control" name="period" onChange={this.inputChanged}>
                 {
                   this.state.period_options.map(option => {
                     return <option key={option} value={option}>{option}</option>
@@ -64,9 +67,9 @@ export class CreateBudget extends Component {
                 }
               </select>
             </div>
-            <div className="form-input">
+            <div className="form-group">
               <label>Type</label>
-              <select name="expense_type" onChange={this.inputChanged}>
+              <select className="form-control" name="expense_type" onChange={this.inputChanged}>
                 {
                   this.state.expense_options.map(option => {
                     return <option key={option} value={option}>{option}</option>
@@ -74,16 +77,11 @@ export class CreateBudget extends Component {
                 }
               </select>
             </div>
-            <button className="btn btn-ok float-right" type='submit'>Create</button>
+            <button className="btn btn-primary btn-block" type='submit'>Create</button>
           </form>
-          <div>
-            {Object.keys(this.state).map(key => {
-              return <div>{key} : {this.state[key]}</div>
-            })}
-          </div>
         </div>
     )
   }
 }
 
-export default CreateBudget
+export default withRouter(CreateBudget)

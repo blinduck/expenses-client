@@ -84,23 +84,23 @@ export class CategoryForm extends Component {
     const {newCategoryName, newCategoryType, cat_id} = this.state;
     return (<div>
       <h3>
-        {cat_id ? 'Update Category' : 'Create New Category'}
+        {cat_id ? 'Update' : 'Create'}
       </h3>
 
       <form onSubmit={cat_id ? this.updateCategory.bind(this) : this.createCategory.bind(this)}>
         <div>
-          <div style={{'marginBottom': '10px'}}>
+          <div className="form-group">
             <label>Category Name: </label>
-            <input type="text"
+            <input type="text" className="form-control"
                    required
                    value={newCategoryName}
                    name='newCategoryName'
                    onChange={this.inputChanged.bind(this)}
                 />
           </div>
-          <div>
+          <div className="form-group">
             <label>Category Type</label>
-            <select name="cat_type"
+            <select name="cat_type" className="form-control"
                     required
                     value="newCategoryType"
                     name='newCategoryType'
@@ -111,9 +111,9 @@ export class CategoryForm extends Component {
             </select>
           </div>
         </div>
-        <button className="btn btn-ok float-right">{this.state.cat_id ? 'Update' : "Create"}</button>
+        <button className="btn btn-block btn-primary float-right">{this.state.cat_id ? 'Update' : "Create"}</button>
       </form>
-      {cat_id ? <button onClick={this.deleteCategory.bind(this)}>Delete Category</button> : null}
+      {cat_id ? <button className='btn btn-block btn-danger' onClick={this.deleteCategory.bind(this)}>Delete Category</button> : null}
 
     </div>)
   }

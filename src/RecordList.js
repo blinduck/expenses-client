@@ -107,16 +107,23 @@ export class RecordList extends Component {
     }
     return (
         <div>
-          <div>{MonthSelector(selectedMonth, this.monthSelected)}</div>
-          <div>
-            { ExpenseTypeSelector(
-                expenseType,
-                this.expenseTypeSelectorChanged,
-                expenseTypeSelectorOptions
-            )}
+          <div style={{display: 'flex'}}>
+            <div className="form-group" style={{flex: 1}}>
+              <label>Month:</label>
+              {MonthSelector(selectedMonth, this.monthSelected, {width: '100%'})}
+            </div>
+            <div className="form-group" style={{flex: 1}}>
+              <label>Type:</label>
+              { ExpenseTypeSelector(
+                  expenseType,
+                  this.expenseTypeSelectorChanged,
+                  expenseTypeSelectorOptions,
+                  {width: '100%'}
+              )}
+            </div>
           </div>
           {records ?
-              <table className='table-striped table'>
+              <table className='table-striped table table-sm'>
                 <tbody>
                 <tr>
                   <th>Time</th>
@@ -136,7 +143,7 @@ export class RecordList extends Component {
               <button onClick={this.fetchExpenses.bind(this, next, false)}>
                 Load More
               </button> :
-              <p>End</p>
+              ""
           }
 
         </div>
@@ -145,6 +152,8 @@ export class RecordList extends Component {
 }
 
 class RecordView extends Component {
+  // Should only be able to edit/delete your own records.
+  // trying to edit someone else's record throws an error right now (on the server)
   constructor(props) {
     super(props)
     this.state = {
@@ -195,15 +204,15 @@ class RecordView extends Component {
   }
 }
 
-const MonthSelector = (value, onChange)=>
-    <select style={{display: 'block'}} value={value} onChange={onChange}>
+const MonthSelector = (value, onChange, styles={})=>
+    <select className='form-control' style={{display: 'block', ...styles}} value={value} onChange={onChange}>
       {moment.monthsShort().map((month, index) => {
         return <option key={month} value={index}>{month}</option>
       })}
     </select>
 
-const ExpenseTypeSelector = (value, onChange, options) =>
-    <select value={value} onChange={onChange}>
+const ExpenseTypeSelector = (value, onChange, options, styles={}) =>
+    <select className="form-control" style={styles} value={value} onChange={onChange}>
       {options.map(option => {
         return <option key={option} value={option}>{option}</option>
       }) }

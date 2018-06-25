@@ -41,7 +41,7 @@ class Home extends Component {
     const masterbudgets = [];
     return (
         <div>
-          <h2>Personal Budgets</h2>
+          <h4>Budgets</h4>
           <hr/>
           {personal.length > 0 ?
               personal.map(mb => {
@@ -51,7 +51,7 @@ class Home extends Component {
                 No personal budgets yet.
               </div>
           }
-          <h2>Household Budgets</h2>
+          <h4>Household Budgets</h4>
           <hr/>
           {household.length > 0 ?
               household.map(mb => {
@@ -72,16 +72,16 @@ class Home extends Component {
 
 const MasterBudget = (mb, history)=>
     <div key={mb.id} className='budget-container'>
-      <h3>
+      <h5>
         {mb.name} ({mb.period})
-      </h3>
+      </h5>
       <p>
         {moment(mb.current_budget.start_time).format('D MMM')} to {moment(mb.current_budget.end_time).format('D MMM')}
       </p>
-      <span className='remainder' style={{'fontSize': '30px'}}>
+      <span className='remainder' style={{'fontSize': '26px'}}>
         ${mb.current_budget.remainder} / {mb.amount}
       </span>
-      <Link to={`budgets/${mb.id}`}>More</Link>
+      {/* <Link to={`budgets/${mb.id}`}>More</Link> */}
       <hr style={{width:'100%'}}/>
     </div>
 
