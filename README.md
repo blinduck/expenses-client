@@ -1,7 +1,7 @@
 # Expenses Project Client
 
+This expense tracker allows multiple people who belong to the same household to record their personal and household expenses.
 
-<img src="" alt="Home Page" width="330px" style="border: 1px solid grey;"/>
 
 ![Home Page](https://raw.githubusercontent.com/blinduck/expenses-client/master/public/readme_images/dollardollar.io_home.png =330x)
 ![Add Expense](https://raw.githubusercontent.com/blinduck/expenses-client/master/public/readme_images/dollardollar.io_add_page.png =330x)
