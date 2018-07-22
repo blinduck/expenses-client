@@ -9,12 +9,13 @@ The initial motivation was to make it easier to divide household expenses with m
 Standard react.js project, bootstrapped with <a href="https://github.com/facebook/create-react-app">create-react-app</a>
 
 To try it:  
-0. clone the <a href="https://github.com/blinduck/expenses-server">server repo</a> and get it up and running first.
-1. clone the repo
-2. run 'npm install'
-3. set the base url that your server is running on in helpers.js (e.g. localhost:8000)
-4. run 'npm run start'
+1. clone the <a href="https://github.com/blinduck/expenses-server">server repo</a> and get it up and running first.
+2. clone the repo
+3. run 'npm install'
+4. set the base url that your server is running on in helpers.js (e.g. localhost:8000)
+5. run 'npm run start'
 
+## Screenshots
 
 <img src="https://raw.githubusercontent.com/blinduck/expenses-client/master/public/readme_images/dollardollar.io_home.png" alt="Home Page" width="330px"/>
 <img src="https://raw.githubusercontent.com/blinduck/expenses-client/master/public/readme_images/dollardollar.io_add_page.png" alt="Add Expense" width="330px"/>
